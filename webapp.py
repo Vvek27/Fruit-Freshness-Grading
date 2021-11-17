@@ -63,7 +63,7 @@ def activity():
     
 def Images():
     if st.checkbox("High Grade Images"):
-        folder_n="app/fruit-freshness-grading/Train/A"
+        folder_n="app/Fruit-Freshness-Grading/Train/A"
         a=random.choice(os.listdir(folder_n))
         b=random.choice(os.listdir(folder_n))
         c=random.choice(os.listdir(folder_n))
@@ -73,7 +73,7 @@ def Images():
             img=image.load_img(img)
             st.image(img,width=300)
     if st.checkbox("Low Grade Images"):
-        folder_n=r"app/fruit-freshness-grading/Train/L"
+        folder_n=r"app/Fruit-Freshness-Grading/Train/L"
         a=random.choice(os.listdir(folder_n))
         b=random.choice(os.listdir(folder_n))
         c=random.choice(os.listdir(folder_n))
@@ -100,7 +100,7 @@ def Prediction():
         with open (uploaded_file.name,"wb") as f:
             f.write(uploaded_file.getbuffer())
         image_name=uploaded_file.name
-        img_path=r"app/fruit-freshness-grading" + "/" + image_name
+        img_path=r"app/Fruit-Freshness-Grading" + "/" + image_name
         img=image.load_img(img_path,target_size=(224,224))
         if st.checkbox("Show image"):
             st.image(img,width=400)
