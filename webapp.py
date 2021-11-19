@@ -61,6 +61,53 @@ def activity():
     st_lottie( lottie_hello, speed=1, reverse=False,loop=True,quality="low",
     renderer="svg")
     
+    
+def Filters():
+    if st.checkbox("High Grade Image"):
+        path_f="/app/fruit-freshness-grading/Train/A"
+        img_nm=random.choice(os.listdir(path_f))
+        img_path=path_f + "/" + img_nm
+        image=cv2.imread(img_path)
+        width,height=1000,1000
+        img_size=cv2.resize(image,(width,height))
+        sobel_x=cv2.Sobel(img_size,-1,1,0)
+        sobel_y=cv2.Sobel(img_size,-1,0,1)
+        canny_img=cv2.Canny(img_size,80,150)
+        st.header("Original Image")
+        plt.matshow(img_size)
+        st.pyplot()
+        st.header("Gradient Sobel X Image")
+        plt.matshow(sobel_x)
+        st.pyplot()
+        st.header("Gradient Sobel Y Image")
+        plt.matshow(sobel_y)
+        st.pyplot()
+        st.header("Canny Image")
+        plt.matshow(canny_img)
+        st.pyplot()
+    if st.checkbox("Low Grade Image"):
+        path_file="/app/fruit-freshness-grading/Train/L"
+        img_name=random.choice(os.listdir(path_file))
+        img_path=path_file + "/" + img_name
+        image=cv2.imread(img_path)
+        width,height=1000,1000
+        img_size=cv2.resize(image,(width,height)) 
+        sobel_x=cv2.Sobel(img_size,-1,1,0)
+        sobel_y=cv2.Sobel(img_size,-1,0,1)
+        canny_img=cv2.Canny(img_size,80,150)
+        st.header("Original Image")
+        plt.matshow(img_size)
+        st.pyplot()
+        st.header("Gradient Sobel X Image")
+        plt.matshow(sobel_x)
+        st.pyplot()
+        st.header("Gradient Sobel Y Image")
+        plt.matshow(sobel_y)
+        st.pyplot()
+        st.header("Canny Image")
+        plt.matshow(canny_img)
+        st.pyplot()
+    
 def Images():
     if st.checkbox("High Grade Images"):
         folder_n="/app/fruit-freshness-grading/Train/A"
@@ -73,7 +120,7 @@ def Images():
             img=image.load_img(img)
             st.image(img,width=300)
     if st.checkbox("Low Grade Images"):
-        folder_n=r"/app/fruit-freshness-grading/Train/L"
+        folder_n="/app/fruit-freshness-grading/Train/L"
         a=random.choice(os.listdir(folder_n))
         b=random.choice(os.listdir(folder_n))
         c=random.choice(os.listdir(folder_n))
@@ -82,7 +129,7 @@ def Images():
             img=folder_n + "/" + random_n[i]
             img=image.load_img(img)
             st.image(img,width=300)
-    
+            
 def Prediction():
     def classify(image,model):
         #load model
@@ -106,20 +153,51 @@ def Prediction():
             st.image(img,width=400)
         img=image.img_to_array(img)/255
         img=np.array([img])
-        result=classify(img,"vgg19model.h5")
-        result=np.argmax(result)
-        result=11-result
-        if st.button("Classify"):
-            if result>6:
-                st.success("its healthy you can eat")
-                st.write(result)
-            else:
-                st.warning("its not healthy dont eat")
-                st.write(result)
+        result1=11-np.argmax(classify(img,"vgg19model.h5"))
+        result2=11-np.argmax(classify(img,"incepv3model.h5"))
+        result3=11-np.argmax(classify(img,"xcepmodel.h5"))
+        result4=(result1 + result2 + result3)/3
+        model_list=["Select Model","VGG19 model","Inceptionv3 Model","Xception Model","Combined"]
+        choice=st.selectbox("",model_list)
+        if choice=="VGG19 model":
+            if st.button("Classify"):
+                if result1>6:
+                    st.success("its healthy you can eat")
+                    st.write("Freshness Level-->",result1)
+                else:
+                    st.warning("its not healthy don't eat")
+                    st.write("Freshness Level-->",result1)
+        elif choice=="Inceptionv3 Model":
+            if st.button("Classify"):
+                if result2>6:
+                    st.success("its healthy you can eat")
+                    st.write("Frehness Level-->",result2)
+                else:
+                    st.warning("its not healthy don't eat")
+                    st.write("Freshness Level-->",result2)
+        elif choice=="Xception Model":
+            if st.button("Classify"):
+                if result3>6:
+                    st.success("its healthy you can eat")
+                    st.write("Freshness Level-->",result3)
+                else:
+                    st.warning("its not healthy don't eat")
+                    st.write("Freshness Level-->",result3)
+        elif choice=="Combined":
+            if st.button("Classify"):
+                if result4>6:
+                    st.success("its healthy you can eat")
+                    st.write("Freshness Level-->",result4)
+                else:
+                    st.warning("its not healthy don't eat")
+                    st.write("Freshness Level-->",result4)
+                    
+                    
 def About():
-    st.text("Made by vivek patel")
-    st.text("2nd year M.Tech student at IIT kharagpur")
-    st.text("Follow me on")
-       
+    st.markdown('<h3 style="text-align:center;">Made By <span style="color:#4f9bce;font-weight:bolder;font-size:40px;">"vivek"</span></h3>',unsafe_allow_html=True)
+    st.markdown('<h2 style="text-align:center;text-decoration:none;font-weight:bolder;"><a style="text-decoration:none;color:rgb(90, 235, 133);" href="https://github.com/Vvek27">-> GitHub <-</a></h2>',unsafe_allow_html=True)
+    st.markdown('<h2 style="text-align:center;text-decoration:none;font-weight:bolder;"><a style="text-decoration:none;color:red;"href="Vivekpatel8383@gmail.com">-> Contact Me <-</a></h2>',unsafe_allow_html=True)
+    
+    
 if __name__=="__main__":
     main()
