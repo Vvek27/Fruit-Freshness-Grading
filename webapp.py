@@ -1,11 +1,15 @@
+from pathlib import WindowsPath
+from numpy.lib import select
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import streamlit as st
 from streamlit.elements.image import image_to_url
+from streamlit.util import _maybe_tuple_to_list
 import streamlit_lottie
 from streamlit_lottie import st_lottie
 import requests
+import cv2
 
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image
@@ -60,11 +64,10 @@ def activity():
     lottie_hello=lottie_file("https://assets3.lottiefiles.com/packages/lf20_E3exCx.json")
     st_lottie( lottie_hello, speed=1, reverse=False,loop=True,quality="low",
     renderer="svg")
-    
-    
+
 def Filters():
     if st.checkbox("High Grade Image"):
-        path_f="/app/fruit-freshness-grading/Train/A"
+        path_f=r"C:\Users\Hp\Desktop\Visual studio\Fruit Freshness Grading\Train\A"
         img_nm=random.choice(os.listdir(path_f))
         img_path=path_f + "/" + img_nm
         image=cv2.imread(img_path)
@@ -86,7 +89,7 @@ def Filters():
         plt.matshow(canny_img)
         st.pyplot()
     if st.checkbox("Low Grade Image"):
-        path_file="/app/fruit-freshness-grading/Train/L"
+        path_file=r"C:\Users\Hp\Desktop\Visual studio\Fruit Freshness Grading\Train\L"
         img_name=random.choice(os.listdir(path_file))
         img_path=path_file + "/" + img_name
         image=cv2.imread(img_path)
@@ -107,10 +110,10 @@ def Filters():
         st.header("Canny Image")
         plt.matshow(canny_img)
         st.pyplot()
-    
+
 def Images():
     if st.checkbox("High Grade Images"):
-        folder_n="/app/fruit-freshness-grading/Train/A"
+        folder_n=r"C:\Users\Hp\Desktop\Visual studio\Fruit Freshness Grading\Train\A"
         a=random.choice(os.listdir(folder_n))
         b=random.choice(os.listdir(folder_n))
         c=random.choice(os.listdir(folder_n))
@@ -120,7 +123,7 @@ def Images():
             img=image.load_img(img)
             st.image(img,width=300)
     if st.checkbox("Low Grade Images"):
-        folder_n="/app/fruit-freshness-grading/Train/L"
+        folder_n=r"C:\Users\Hp\Desktop\Visual studio\Fruit Freshness Grading\Train\L"
         a=random.choice(os.listdir(folder_n))
         b=random.choice(os.listdir(folder_n))
         c=random.choice(os.listdir(folder_n))
@@ -129,7 +132,7 @@ def Images():
             img=folder_n + "/" + random_n[i]
             img=image.load_img(img)
             st.image(img,width=300)
-            
+    
 def Prediction():
     def classify(image,model):
         #load model
@@ -139,7 +142,7 @@ def Prediction():
     uploaded_file = st.file_uploader("Choose an banana image", type=["png","jpg","jpeg"])
     if uploaded_file is not None:
         if st.checkbox("File information"):
-            d={"File name":[uploaded_file.name],"File size":[uploaded_file.size],
+            d={"File name":[uploaded_file.name],"File size":[(uploaded_file.size)/10**6],
             "File type":[uploaded_file.type]}
             df=pd.DataFrame(d)
             st.write(df)
@@ -147,7 +150,7 @@ def Prediction():
         with open (uploaded_file.name,"wb") as f:
             f.write(uploaded_file.getbuffer())
         image_name=uploaded_file.name
-        img_path=r"/app/fruit-freshness-grading" + "/" + image_name
+        img_path=r"C:\Users\Hp\Desktop\Visual studio" + "/" + image_name
         img=image.load_img(img_path,target_size=(224,224))
         if st.checkbox("Show image"):
             st.image(img,width=400)
@@ -191,13 +194,11 @@ def Prediction():
                 else:
                     st.warning("its not healthy don't eat")
                     st.write("Freshness Level-->",result4)
-                    
-                    
+
 def About():
     st.markdown('<h3 style="text-align:center;">Made By <span style="color:#4f9bce;font-weight:bolder;font-size:40px;">"vivek"</span></h3>',unsafe_allow_html=True)
     st.markdown('<h2 style="text-align:center;text-decoration:none;font-weight:bolder;"><a style="text-decoration:none;color:rgb(90, 235, 133);" href="https://github.com/Vvek27">-> GitHub <-</a></h2>',unsafe_allow_html=True)
-    st.markdown('<h2 style="text-align:center;text-decoration:none;font-weight:bolder;"><a style="text-decoration:none;color:red;"href="Vivekpatel8383@gmail.com">-> Contact Me <-</a></h2>',unsafe_allow_html=True)
-    
-    
+    st.markdown('<h2 style="text-align:center;text-decoration:none;font-weight:bolder;"><a style="text-decoration:none;color:red;"href="https://mail.google.com/mail/u/0/#inbox?compose=DmwnWrRmTWjqWjGLDZjgrQbrlNkwCVzqjlCqlzBZkkLhnmzkHNVTRSMFNLNQWxplJGVnXJdVcNkL">-> Contact Me <-</a></h2>',unsafe_allow_html=True)
+
 if __name__=="__main__":
     main()
