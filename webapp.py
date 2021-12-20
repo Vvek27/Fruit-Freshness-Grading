@@ -6,7 +6,7 @@ from streamlit.elements.image import image_to_url
 import streamlit_lottie
 from streamlit_lottie import st_lottie
 import requests
-import cv2
+
 
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image
@@ -61,52 +61,6 @@ def activity():
     lottie_hello=lottie_file("https://assets3.lottiefiles.com/packages/lf20_E3exCx.json")
     st_lottie( lottie_hello, speed=1, reverse=False,loop=True,quality="low",
     renderer="svg")
-
-def Filters():
-    if st.checkbox("High Grade Image"):
-        path_f="/app/fruit-freshness-grading/Train/A"
-        img_nm=random.choice(os.listdir(path_f))
-        img_path=path_f + "/" + img_nm
-        image=cv2.imread(img_path)
-        width,height=1000,1000
-        img_size=cv2.resize(image,(width,height))
-        sobel_x=cv2.Sobel(img_size,-1,1,0)
-        sobel_y=cv2.Sobel(img_size,-1,0,1)
-        canny_img=cv2.Canny(img_size,80,150)
-        st.header("Original Image")
-        plt.matshow(img_size)
-        st.pyplot()
-        st.header("Gradient Sobel X Image")
-        plt.matshow(sobel_x)
-        st.pyplot()
-        st.header("Gradient Sobel Y Image")
-        plt.matshow(sobel_y)
-        st.pyplot()
-        st.header("Canny Image")
-        plt.matshow(canny_img)
-        st.pyplot()
-    if st.checkbox("Low Grade Image"):
-        path_file="/app/fruit-freshness-grading/Train/L"
-        img_name=random.choice(os.listdir(path_file))
-        img_path=path_file + "/" + img_name
-        image=cv2.imread(img_path)
-        width,height=1000,1000
-        img_size=cv2.resize(image,(width,height)) 
-        sobel_x=cv2.Sobel(img_size,-1,1,0)
-        sobel_y=cv2.Sobel(img_size,-1,0,1)
-        canny_img=cv2.Canny(img_size,80,150)
-        st.header("Original Image")
-        plt.matshow(img_size)
-        st.pyplot()
-        st.header("Gradient Sobel X Image")
-        plt.matshow(sobel_x)
-        st.pyplot()
-        st.header("Gradient Sobel Y Image")
-        plt.matshow(sobel_y)
-        st.pyplot()
-        st.header("Canny Image")
-        plt.matshow(canny_img)
-        st.pyplot()
 
 def Images():
     if st.checkbox("High Grade Images"):
