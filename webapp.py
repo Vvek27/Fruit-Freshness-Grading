@@ -1,11 +1,8 @@
-from pathlib import WindowsPath
-from numpy.lib import select
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import streamlit as st
 from streamlit.elements.image import image_to_url
-from streamlit.util import _maybe_tuple_to_list
 import streamlit_lottie
 from streamlit_lottie import st_lottie
 import requests
@@ -67,7 +64,7 @@ def activity():
 
 def Filters():
     if st.checkbox("High Grade Image"):
-        path_f=r"/app/fruit-freshness-grading/Train/A"
+        path_f="/app/fruit-freshness-grading/Train/A"
         img_nm=random.choice(os.listdir(path_f))
         img_path=path_f + "/" + img_nm
         image=cv2.imread(img_path)
@@ -89,7 +86,7 @@ def Filters():
         plt.matshow(canny_img)
         st.pyplot()
     if st.checkbox("Low Grade Image"):
-        path_file=r"/app/fruit-freshness-grading/Train/L"
+        path_file="/app/fruit-freshness-grading/Train/L"
         img_name=random.choice(os.listdir(path_file))
         img_path=path_file + "/" + img_name
         image=cv2.imread(img_path)
@@ -113,7 +110,7 @@ def Filters():
 
 def Images():
     if st.checkbox("High Grade Images"):
-        folder_n=r"/app/fruit-freshness-grading/Train/A"
+        folder_n= "/app/fruit-freshness-grading/Train/A"
         a=random.choice(os.listdir(folder_n))
         b=random.choice(os.listdir(folder_n))
         c=random.choice(os.listdir(folder_n))
